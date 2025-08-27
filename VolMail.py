@@ -2,7 +2,7 @@ import logging
 import argparse
 
 # Files
-root_files = './files'
+root_files = './files/'
 
 # Log files
 log_file = root_files + 'log.txt'
@@ -13,7 +13,7 @@ dry_run = False
 '''
 Send an email
 '''
-def send(args):
+def send_mail(args):
     print("Send mail")
     return 0
 
@@ -52,8 +52,8 @@ if __name__ == '__main__':
     main_parser.add_argument('--dry-run', '-dr', action='count', help='Execute a dry run')
     sub_parsers = main_parser.add_subparsers()
 
-    cr_parser = sub_parsers.add_parser('send', help='Send an email')
-    cr_parser.set_defaults(func=send)
+    sd_parser = sub_parsers.add_parser('send', help='Send an email')
+    sd_parser.set_defaults(func=send_mail)
 
     main_args = main_parser.parse_args()
     _v_mail(main_args)
