@@ -33,10 +33,9 @@ def _v_mail(args):
         return 0
 
 
-def setup_debug(debug=False): 
+def setup_debug(): 
     logger = logging.getLogger("")
-    if debug == True:
-        logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.DEBUG)
     handler = logging.FileHandler(log_file)
     formatter = logging.Formatter("%(asctime)s %(levelname)s : %(message)s")
     handler.setFormatter(formatter)
@@ -44,16 +43,31 @@ def setup_debug(debug=False):
 
 
 if __name__ == '__main__':
-    main_parser = argparse.ArgumentParser(
-    prog='va_utils',
-        description='These utilities support the volunteer app.',
-        epilog='See "%(prog)s help COMMAND" for help on a specific command.')
-    main_parser.add_argument('--debug', '-d', action='count', help='Print debug output')
-    main_parser.add_argument('--dry-run', '-dr', action='count', help='Execute a dry run')
-    sub_parsers = main_parser.add_subparsers()
+    parser = argparse.ArgumentParser(prog='VolMail',
+                                        description='These function allow the user to send an email',
+                                        epilog='See "%(prog)s help COMMAND" for help on a specific command.')
+    parser.add_argument('--debug', '-d', action='count', help='Print debug output')
+    parser.add_argument('--dry-run', '-dr', action='count', help='Execute a dry run')
+    subparsers = parser.add_subparsers(dest='command', help='Available commands')
 
-    sd_parser = sub_parsers.add_parser('send', help='Send an email')
-    sd_parser.set_defaults(func=send_mail)
+    send_parser = subparsers.add_parser('send', help='Send an email')
+    send_parser.set_defaults(func=send_mail)
 
-    main_args = main_parser.parse_args()
-    _v_mail(main_args)
+    args = parser.parse_args()
+
+    if args.debug:
+        setup_debug()
+
+    if args.dry_run:
+        dry_run = True
+
+    if args.command:
+        args.func(args)
+    else:
+        parser.print_help()
+
+
+
+
+
+#    _v_mail(main_args)
