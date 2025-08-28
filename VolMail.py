@@ -18,21 +18,6 @@ def send_mail(args):
     return 0
 
 
-def _v_mail(args):
-    if args.debug:
-        logging.basicConfig(level=logging.DEBUG)
-
-    logging.FileHandler(log_file)
-
-    if args.dry_run:
-        dry_run = True
-
-    if args.func:
-        return args.func(args)
-    else:
-        return 0
-
-
 def setup_debug(): 
     logger = logging.getLogger("")
     logging.basicConfig(level=logging.DEBUG)
@@ -65,9 +50,3 @@ if __name__ == '__main__':
         args.func(args)
     else:
         parser.print_help()
-
-
-
-
-
-#    _v_mail(main_args)
